@@ -73,10 +73,7 @@
         ];
 
         // 클래스 적용된 것들을 모두 삭제 (중복으로 나타나는 문제 해결 위해.)
-        document.querySelectorAll(".invalid-msg").forEach((el) => el.remove());
-        document.querySelectorAll(".invalid-highlight").forEach((el) => el.classList.remove("invalid-highlight"));
-        document.querySelectorAll(".valid-highlight").forEach((el) => el.classList.remove("valid-highlight"));
-        document.querySelectorAll(".valid-txt-color").forEach((el) => el.classList.remove("valid-txt-color"));
+        remove_valid_check();
 
         // valid check
         for (let i = 0; i < requiredID.length; i++) {
@@ -162,12 +159,20 @@
 
         if (isValid) {
           if(confirm("게시물을 수정할까요?")) {
-            return alert("게시물을 수정하였습니다.");
+            alert("게시물을 수정하였습니다.");
+            remove_valid_check();
           }
           else {
-            return alert("게시물 수정을 취소하였습니다.");
+            alert("게시물 수정을 취소하였습니다.");
           }
         }
+      }
+
+      function remove_valid_check() {
+        document.querySelectorAll(".invalid-msg").forEach((el) => el.remove());
+        document.querySelectorAll(".invalid-highlight").forEach((el) => el.classList.remove("invalid-highlight"));
+        document.querySelectorAll(".valid-highlight").forEach((el) => el.classList.remove("valid-highlight"));
+        document.querySelectorAll(".valid-txt-color").forEach((el) => el.classList.remove("valid-txt-color"));
       }
 
       function errormsg(element, message) {
