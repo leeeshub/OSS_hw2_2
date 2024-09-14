@@ -18,13 +18,27 @@
       .custom-mar-b-140 {
         margin-bottom: 140px;
       }
+
+      .invalid-highlight {
+        border: 3px solid rgba(184, 3, 3, 0.4) !important;
+      }
+
+      .invalid-msg {
+        color: rgb(184, 3, 3);
+        width: 100%;
+        font-size: smaller;
+      }
+
+      .valid-highlight {
+        border: 3px solid rgba(0, 128, 0, 0.4) !important;
+      }
+
+      .valid-txt-color {
+        color: green !important;
+      }
     </style>
 
     <script>
-      function validate() {
-        alert("게시물이 추가됩니다");
-      }
-
       window.onload = function() { // 임의의 데이터를 넣기
         document.getElementById('year').value = '2023';
         document.getElementById('model').value = 'iPhone 15';
@@ -33,6 +47,138 @@
         document.getElementById('price').value = '999';
         document.getElementById('stock').value = 'In stock';
         document.getElementById('quantity').value = '1000';
+      }
+
+      function modify(event) {
+        event.preventDefault();
+
+        let isValid = true;
+        const requiredID = [
+          "year",
+          "model",
+          "color",
+          "storage",
+          "price",
+          "stock",
+        ];
+
+        const validModel = ["iPhone", "MacBook", "iPad"];
+        const validColor = [
+          "Black",
+          "White",
+          "Silver",
+          "Space Gray",
+          "Midnight",
+          "Purple",
+        ];
+
+        // 클래스 적용된 것들을 모두 삭제 (중복으로 나타나는 문제 해결 위해.)
+        document.querySelectorAll(".invalid-msg").forEach((el) => el.remove());
+        document.querySelectorAll(".invalid-highlight").forEach((el) => el.classList.remove("invalid-highlight"));
+        document.querySelectorAll(".valid-highlight").forEach((el) => el.classList.remove("valid-highlight"));
+        document.querySelectorAll(".valid-txt-color").forEach((el) => el.classList.remove("valid-txt-color"));
+
+        // valid check
+        for (let i = 0; i < requiredID.length; i++) {
+          const factor = document.getElementById(requiredID[i]);
+          const value = factor.value.trim();
+
+          switch (requiredID[i]) {
+            // 연도 : 기본으로 선택된 Year 아닌 것들이 선택되어야 함.
+            case "year":
+              if (value === '') {
+                errormsg(factor, "Please select a valid released year.");
+                isValid = false;
+              } else {
+                factor.classList.add("valid-highlight");
+              }
+              break;
+
+            // 모델: iPhone, iPad, MacBook 중에 하나가 포함되어야 함. ex. ChromeBook (X)
+            case "model":
+              if (!validModel.some(modelName => value.includes(modelName))) {
+                // 세 모델 중 하나가 아니라면 invalid
+                errormsg(factor, "Please enter a valid model! (Valid: only MacBook, iPad, iPhone series)");
+                isValid = false;
+              } else {
+                factor.classList.add("valid-highlight");
+              }
+              break;
+            
+            // 색상: 유효한 컬러 중 하나가 입력되어야 함. 옵션을 invalid-msg에 안내해주기.
+            case "color":
+              if (!validColor.includes(value)) {
+                // 유효한 컬러가 아니라면 invalid
+                errormsg(
+                  factor,
+                  "Invalid Color! (Valid: Black, White, Silver, Space Gray, Midnight, Purple)"
+                );
+                isValid = false;
+              } else {
+                factor.classList.add("valid-highlight");
+              }
+              break;
+            
+            // 가격: 문자가 아닌 숫자만 입력 가능.
+            case "price":
+              if (value === '' || isNaN(value)) {
+                errormsg(factor, "Please write down the number value.");
+                isValid = false;
+              }
+              else {
+                factor.classList.add('valid-highlight');
+              }
+              break;
+            
+            // 따로 특별한 조건 없고 required 하다고만 띄우기.
+            case "storage":
+              if (value === '') {
+                errormsg(factor, "This field is required.");
+                isValid = false;
+              } else {
+                factor.classList.add('valid-highlight');
+              }
+              break;
+            
+            // 이외 required 항목들.
+            // stock은 기본적으로 in stock으로 설정해놓음.
+            default:
+              if (!value) {
+                errormsg(factor, "This field is required.");
+                isValid = false;
+              }
+              else {
+                factor.classList.add('valid-highlight');
+              }
+          }
+        }
+
+        // optional - quantity
+        document.getElementById("quantity").classList.add('valid-highlight');
+
+        // optional - check box
+        document.getElementById("save-info-msg").classList.add('valid-txt-color');
+        document.getElementById("exclusive-msg").classList.add('valid-txt-color');
+
+        if (isValid) {
+          if(confirm("게시물을 수정할까요?")) {
+            return alert("게시물을 수정하였습니다.");
+          }
+          else {
+            return alert("게시물 수정을 취소하였습니다.");
+          }
+        }
+      }
+
+      function errormsg(element, message) {
+        element.classList.add("invalid-highlight"); // invalid 발생한 요소(input 박스 등)에 border red 주기.
+
+        if (!element.parentNode.querySelector(".invalid-msg")) {
+          const error = document.createElement("div"); // 아래에 표시할 메세지 추가하기
+          error.className = "invalid-msg"; // 메세지 css 적용
+          error.innerText = message; // 메세지 지정
+          element.parentNode.appendChild(error); // 메세지 추가
+        }
       }
     </script>
   </head>
@@ -139,9 +285,6 @@
                   <option>2019</option>
                   <option>2018</option>
                 </select>
-                <div class="invalid-feedback">
-                  Please select a released year.
-                </div>
               </div>
 
               <div class="col-md-7 mb-3">
@@ -153,7 +296,6 @@
                   placeholder="Enter the full model name"
                   required=""
                 />
-                <div class="invalid-feedback">Model name is required.</div>
               </div>
             </div>
 
@@ -167,9 +309,6 @@
                 placeholder="ex. Silver"
                 required=""
               />
-              <div class="invalid-feedback">
-                Please enter the available color.
-              </div>
 
               <div class="custom-control custom-checkbox mt-1">
                 <input
@@ -177,7 +316,7 @@
                   class="custom-control-input"
                   id="exclusive"
                 />
-                <label class="custom-control-label text-muted" for="exclusive"
+                <label class="custom-control-label text-muted" id="exclusive-msg" for="exclusive"
                   >Exclusive color</label
                 >
               </div>
@@ -199,9 +338,6 @@
                 <option>1TB</option>
                 <option>2TB</option>
               </select>
-              <div class="invalid-feedback">
-                Please select a product storage.
-              </div>
             </div>
 
             <!-- Price -->
@@ -218,9 +354,6 @@
                   aria-describedby="basic-addon1"
                 />
               </div>
-              <div class="invalid-feedback" style="width: 100%">
-                Your username is required.
-              </div>
             </div>
 
             <!-- Stock -->
@@ -235,7 +368,6 @@
                   <option selected>In stock</option>
                   <option>Out of stock</option>
                 </select>
-                <div class="invalid-feedback"></div>
               </div>
 
               <div class="col-md-6 mb-3">
@@ -249,9 +381,6 @@
                   placeholder="number only"
                   required=""
                 />
-                <div class="invalid-feedback">
-                  Please enter the availavle color.
-                </div>
               </div>
             </div>
 
@@ -264,7 +393,7 @@
                 class="custom-control-input"
                 id="save-info"
               />
-              <label class="custom-control-label text-muted" for="save-info"
+              <label class="custom-control-label text-muted" id="save-info-msg" for="save-info"
                 >Save this information for next time</label
               >
             </div>
@@ -273,7 +402,7 @@
             <button
               class="btn btn-primary btn-lg btn-block w-100"
               type="submit"
-              onclick="modify()"
+              onclick="modify(event)"
             >
               Modify (수정)
             </button>
