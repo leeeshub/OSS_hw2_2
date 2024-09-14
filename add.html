@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+    />
+
+    <style>
+      .custom-mar-b-140 {
+        margin-bottom: 140px;
+      }
+
+      .invalid-highlight {
+        border: 3px solid rgba(184, 3, 3, 0.4) !important;
+      }
+
+      .invalid-msg {
+        color: rgb(184, 3, 3);
+        width: 100%;
+        font-size: smaller;
+      }
+
+      .valid-highlight {
+        border: 3px solid rgba(0, 128, 0, 0.4) !important;
+      }
+
+      .valid-txt-color {
+        color: green !important;
+      }
+    </style>
+
+    <script>
+      function add(event) {
+        event.preventDefault();
+
+        let isValid = true;
+        const requiredID = [
+          "year",
+          "model",
+          "color",
+          "storage",
+          "price",
+          "stock",
+        ];
+
+        const validModel = ["iPhone", "MacBook", "iPad"];
+        const validColor = [
+          "Black",
+          "White",
+          "Silver",
+          "Space Gray",
+          "Midnight",
+          "Purple",
+        ];
+
+        // 문제!! 메세지 중복 입력됨. -> 해결
+        // 클래스 적용된 것들을 모두 삭제 (중복으로 나타나는 문제 해결 위해.)
+        document.querySelectorAll(".invalid-msg").forEach((el) => el.remove());
+        document.querySelectorAll(".invalid-highlight").forEach((el) => el.classList.remove("invalid-highlight"));
+        document.querySelectorAll(".valid-highlight").forEach((el) => el.classList.remove("valid-highlight"));
+        document.querySelectorAll(".valid-txt-color").forEach((el) => el.classList.remove("valid-txt-color"));
+
+        // valid check
+        for (let i = 0; i < requiredID.length; i++) {
+          const factor = document.getElementById(requiredID[i]);
+          const value = factor.value.trim();
+
+          switch (requiredID[i]) {
+            // 연도 : 기본으로 선택된 Year 아닌 것들이 선택되어야 함.
+            case "year":
+              if (value === '') {
+                errormsg(factor, "Please select a valid released year.");
+                isValid = false;
+              } else {
+                factor.classList.add("valid-highlight");
+              }
+              break;
+
+            // 모델: iPhone, iPad, MacBook 중에 하나가 포함되어야 함. ex. ChromeBook (X)
+            case "model":
+              if (!validModel.some(modelName => value.includes(modelName))) {
+                // 세 모델 중 하나가 아니라면 invalid
+                errormsg(factor, "Please enter a valid model! (Valid: only MacBook, iPad, iPhone series)");
+                isValid = false;
+              } else {
+                factor.classList.add("valid-highlight");
+              }
+              break;
+            
+            // 색상: 유효한 컬러 중 하나가 입력되어야 함. 옵션을 invalid-msg에 안내해주기.
+            case "color":
+              if (!validColor.includes(value)) {
+                // 유효한 컬러가 아니라면 invalid
+                errormsg(
+                  factor,
+                  "Invalid Color! (Valid: Black, White, Silver, Space Gray, Midnight, Purple)"
+                );
+                isValid = false;
+              } else {
+                factor.classList.add("valid-highlight");
+              }
+              break;
+            
+            // 가격: 문자가 아닌 숫자만 입력 가능.
+            case "price":
+              if (value === '' || isNaN(value)) {
+                errormsg(factor, "Please write down the number value.");
+                isValid = false;
+              }
+              else {
+                factor.classList.add('valid-highlight');
+              }
+              break;
+            
+            // 따로 특별한 조건 없고 required 하다고만 띄우기.
+            case "storage":
+              if (value === '') {
+                errormsg(factor, "This field is required.");
+                isValid = false;
+              } else {
+                factor.classList.add('valid-highlight');
+              }
+              break;
+            
+            // 이외 required 항목들.
+            // stock은 기본적으로 in stock으로 설정해놓음.
+            default:
+              if (!value) {
+                errormsg(factor, "This field is required.");
+                isValid = false;
+              }
+              else {
+                factor.classList.add('valid-highlight');
+              }
+          }
+        }
+
+        // optional - quantity
+        document.getElementById("quantity").classList.add('valid-highlight');
+
+        // optional - check box
+        document.getElementById("save-info-msg").classList.add('valid-txt-color');
+        document.getElementById("exclusive-msg").classList.add('valid-txt-color');
+
+        if (isValid) {
+          return alert("게시물이 추가됩니다");
+        }
+      }
+
+      function errormsg(element, message) {
+        element.classList.add("invalid-highlight"); // invalid 발생한 요소(input 박스 등)에 border red 주기.
+
+        if (!element.parentNode.querySelector(".invalid-msg")) {
+          const error = document.createElement("div"); // 아래에 표시할 메세지 추가하기
+          error.className = "invalid-msg"; // 메세지 css 적용
+          error.innerText = message; // 메세지 지정
+          element.parentNode.appendChild(error); // 메세지 추가
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 px-4 mb-4 border-bottom bg-light sticky-top"
+        id="header"
+      >
+        <div class="col-md-3 mb-2 mb-md-0">
+          <a
+            href="/"
+            class="d-inline-flex link-body-emphasis text-decoration-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-apple"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"
+              />
+              <path
+                d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"
+              />
+            </svg>
+            &ensp;
+            <h4>Apple</h4>
+          </a>
+        </div>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="index.html" class="nav-link px-2">Home</a></li>
+          <li><a href="#" class="nav-link px-2">New</a></li>
+          <li><a href="#" class="nav-link px-2">Mac</a></li>
+          <li><a href="#" class="nav-link px-2">iPad</a></li>
+          <li><a href="#" class="nav-link px-2">iPhone</a></li>
+        </ul>
+
+        <div
+          class="col-md-3 text-end d-flex justify-content-end align-items-center"
+        >
+          <a href="/" class="text-body">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              class="bi bi-search me-3"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+              />
+            </svg>
+          </a>
+          <a href="/" class="text-body">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              class="bi bi-bag"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"
+              />
+            </svg>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main part -->
+      <div id="main" class="custom-mar-b-140 p-4">
+        <div class="py-5 mb-4 text-center">
+          <i class="fs-1 bi bi-patch-plus"></i>
+          <span class="fs-1 fw-bold">Add the product</span>
+        </div>
+
+        <!-- Product information -->
+        <div class="order-md-1">
+          <h4 class="mb-3">Product information</h4>
+
+          <form class="needs-validation" novalidate="">
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <label for="year" class="mb-1">Released Year</label>
+                <select
+                  class="custom-select d-block w-100 p-2 border rounded"
+                  id="year"
+                  required=""
+                >
+                  <option value="" selected>Year</option>
+                  <option>2024</option>
+                  <option>2023</option>
+                  <option>2022</option>
+                  <option>2021</option>
+                  <option>2020</option>
+                  <option>2019</option>
+                  <option>2018</option>
+                </select>
+              </div>
+
+              <div class="col-md-7 mb-3">
+                <label for="model" class="mb-1">Model</label>
+                <input
+                  type="text"
+                  class="form-control p-2"
+                  id="model"
+                  placeholder="Enter the full model name"
+                  required=""
+                />
+              </div>
+            </div>
+
+            <!-- Color -->
+            <div class="mb-3">
+              <label for="color" class="mb-1">Color</label>
+              <input
+                type="text"
+                class="form-control"
+                id="color"
+                placeholder="ex. Silver"
+                required=""
+              />
+
+              <div class="custom-control custom-checkbox mt-1">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="exclusive"
+                />
+                <label class="custom-control-label text-muted" id="exclusive-msg" for="exclusive"
+                  >Exclusive color</label
+                >
+              </div>
+            </div>
+
+            <!-- Storage -->
+            <div class="mb-3">
+              <label for="storage" class="mb-1">Storage</label>
+              <select
+                class="custom-select d-block w-100 p-2 border rounded"
+                id="storage"
+                required=""
+              >
+                <option value="" selected>Select the option</option>
+                <option>64GB</option>
+                <option>128GB</option>
+                <option>256GB</option>
+                <option>512GB</option>
+                <option>1TB</option>
+                <option>2TB</option>
+              </select>
+            </div>
+
+            <!-- Price -->
+            <label for="price" class="mb-1">Price</label>
+            <div class="input-group">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="dollar">$</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="price"
+                  placeholder="number only"
+                  aria-label="dollar"
+                  aria-describedby="basic-addon1"
+                />
+              </div>
+            </div>
+
+            <!-- Stock -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="stock" class="mb-1">Stock</label>
+                <select
+                  class="custom-select d-block w-100 p-2 border rounded"
+                  id="stock"
+                  required=""
+                >
+                  <option selected>In stock</option>
+                  <option>Out of stock</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="quantity" class="mb-1"
+                  >Quantity <span class="text-muted">(Optional)</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="quantity"
+                  placeholder="number only"
+                  required=""
+                />
+              </div>
+            </div>
+
+            <hr class="mb-3" />
+
+            <!-- save info check box -->
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="save-info"
+              />
+              <label class="custom-control-label text-muted" id="save-info-msg" for="save-info"
+                >Save this information for next time</label
+              >
+            </div>
+
+            <hr class="mb-4" />
+            <button
+              class="btn btn-primary btn-lg btn-block w-100"
+              type="submit"
+              onclick="add(event)"
+            >
+              Add (추가)
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer
+        class="d-flex flex-wrap justify-content-between align-items-center p-3 mt-4 border-top bg-white"
+      >
+        <p class="col-md-4 mb-0 text-body-secondary">© 2024 Apple, Inc</p>
+
+        <a
+          href="/"
+          class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            class="bi bi-apple"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"
+            />
+            <path
+              d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"
+            />
+          </svg>
+        </a>
+
+        <ul class="nav col-md-4 justify-content-end">
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Privacy</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">About</a>
+          </li>
+        </ul>
+      </footer>
+    </div>
+  </body>
+</html>
