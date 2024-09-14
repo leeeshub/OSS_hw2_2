@@ -25,9 +25,22 @@
       height: 40px; /* 높이 변경 */
       vertical-align: middle;
     }
-  
+    
+    .cursor-pointer {
+      cursor: pointer;
+    }
     
   </style>
+
+  <script>
+    function delete_item() {
+      if(confirm("게시물을 삭제할까요?")){
+        alert("게시물을 삭제하였습니다.");
+      }else{
+        alert("게시물 삭제 취소.");
+      }
+    }
+  </script>
 
 </head>
 <body>
@@ -98,104 +111,154 @@
         <thead>
           <tr class="table-primary">
             <th scope="col" class="text-center">#</th>
-            <th scope="col">Released year</th>
             <th scope="col">Model</th>
             <th scope="col">Color</th>
             <th scope="col">Storage</th>
             <th scope="col">Price</th>
             <th scope="col">Available</th>
+            <th scope="col">Menu</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="text-center">10</td>
-            <td>2024</td>
             <td><a href="view.html" class="nav-link text-body">iPhone 16</a></td>
             <td>Black</td>
             <td>256GB</td>
             <td>$799</td>
             <td>In stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">9</td>
-            <td>2024</td>
             <td><a href="view.html" class="nav-link text-body">iPhone 16 Pro</a></td>
             <td>Midnight</td>
             <td>256GB</td>
             <td>$999</td>
             <td>In stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">8</td>
-            <td>2023</td>
             <td><a href="view.html" class="nav-link text-body">MacBook Air 13"</a></td>
             <td>Space Gray</td>
             <td>512GB</td>
             <td>$899</td>
             <td>In stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">7</td>
-            <td>2023</td>
             <td><a href="view.html" class="nav-link text-body">MacBook Air 15"</a></td>
             <td>White</td>
             <td>1TB</td>
             <td>$1299</td>
             <td>Out of stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">6</td>
-            <td>2023</td>
             <td><a href="view.html" class="nav-link text-body">MacBook Air 15"</a></td>
             <td>Silver</td>
             <td>512GB</td>
             <td>$1099</td>
             <td>In stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">5</td>
-            <td>2022</td>
             <td><a href="view.html" class="nav-link text-body">iPhone 14 Plus</a></td>
             <td>Purple</td>
             <td>128GB</td>
             <td>$599</td>
             <td>Out of stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">4</td>
-            <td>2021</td>
             <td><a href="view.html" class="nav-link text-body">MacBook Pro 14"</a></td>
             <td>Space Gray</td>
             <td>1TB</td>
             <td>$199</td>
             <td>Out of stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">3</td>
-            <td>2021</td>
             <td><a href="view.html" class="nav-link text-body">iPad Pro M1 11"</a></td>
             <td>Silver</td>
             <td>256GB</td>
             <td>$999</td>
             <td>In stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">2</td>
-            <td>2020</td>
             <td><a href="view.html" class="nav-link text-body">iPhone 12 Pro</a></td>
             <td>Midnight</td>
             <td>128GB</td>
             <td>$899</td>
             <td>In stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>
           <tr>
             <td class="text-center">1</td>
-            <td>2020</td>
             <td><a href="view.html" class="nav-link text-body">iPad Air 4</a></td>
             <td>Purple</td>
             <td>64GB</td>
             <td>$599</td>
             <td>Out of stock</td>
+            <td class="d-flex mt-1">
+              <a href="edit.html" class="text-dark">
+                <i class="bi bi-pencil-square me-2 fs-6"></i>
+              </a>
+              <span><i onclick="delete_item()" class="bi bi-trash fs-6 cursor-pointer"></i></span>
+            </td>
           </tr>          
         </tbody>
       </table>
