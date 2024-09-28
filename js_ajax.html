@@ -9,11 +9,13 @@
       .input-group {
         margin-bottom: 10px;
       }
+
       input {
         width: 150px;
         padding: 5px;
         margin-left: 5px;
       }
+
       #contents {
         margin-top: 20px;
         padding: 20px;
@@ -42,12 +44,18 @@
       }
 
       // event listener for edit btn
-      function addEditListeners() {
+      function eventListeners() {
         let editButtons = document.getElementsByClassName("edit-btn");
         for (let btn of editButtons) {
           btn.addEventListener("click", function() {
             let id = this.getAttribute("data-id");
             editUser(id);
+          });
+        }
+        for (let btn of deleteButtons) {
+          btn.addEventListener("click", function() {
+            let id = this.getAttribute("data-id");
+            deleteUser(id);
           });
         }
       }
@@ -65,7 +73,7 @@
           if (xhr.status === 200) {
             const res = JSON.parse(xhr.response);
             contents.innerHTML = makeList(res);
-            addEditListeners();
+            eventListeners();
           } else {
             console.log(xhr.status, xhr.statusText);
           }
@@ -79,6 +87,7 @@
           str += `<li> 
                     ${data[key].name} (${data[key].age}) - ${data[key].major} 
                     <button class="edit-btn" data-id="${data[key].id}">수정</button>
+                    <button class="delete-btn" data-id="${data[key].id}">삭제</button>
                   </li>`;
         }
         str += "</ul>";
@@ -161,6 +170,26 @@
           } else {
             console.log(xhr.status, xhr.statusText);
           }
+        }
+      }
+
+      // DELETE data
+      function deleteUser(id) {
+        if (confirm("정말로 이 사용자를 삭제하시겠습니까?")) {
+          const xhr = new XMLHttpRequest();
+          xhr.open("DELETE", `http://localhost:3001/users/${id}`);
+          xhr.setRequestHeader("content-type", "application/json");
+          xhr.send();
+
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              const res = JSON.parse(xhr.response);
+              console.log(res);
+              getUsers();
+            } else {
+              console.log(xhr.status, xhr.statusText);
+            }
+          };
         }
       }
 
