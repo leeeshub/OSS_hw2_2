@@ -1,0 +1,72 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "content": "HTML",
+      "completed": true
+    },
+    {
+      "id": "2",
+      "content": "React",
+      "completed": false
+    },
+    {
+      "id": "3",
+      "content": "JAVA",
+      "completed": true
+    },
+    {
+      "id": "4",
+      "content": "CSS",
+      "completed": false
+    },
+    {
+      "id": "5",
+      "content": "Node.js",
+      "completed": true
+    },
+    {
+      "id": "6",
+      "content": "Python",
+      "completed": false
+    }
+  ],
+  "users": [
+    {
+      "name": "Lee",
+      "age": 20,
+      "major": "Computer Science",
+      "id": "a764"
+    },
+    {
+      "name": "Kim",
+      "age": 22,
+      "major": "Business",
+      "id": "ebb9"
+    },
+    {
+      "name": "Choi",
+      "age": 21,
+      "major": "Sociology",
+      "id": "f582"
+    },
+    {
+      "name": "Park",
+      "age": 27,
+      "major": "Art",
+      "id": "b3ed"
+    },
+    {
+      "name": "Lim",
+      "age": 24,
+      "major": "Physics",
+      "id": "9142"
+    },
+    {
+      "name": "Kang",
+      "age": 29,
+      "major": "Biology",
+      "id": "e2ad"
+    }
+  ]
+}
