@@ -24,6 +24,17 @@
         });
       }
 
+      // event listener for edit btn
+      function addEditListeners() {
+        let editButtons = document.getElementsByClassName("edit-btn");
+        for (let btn of editButtons) {
+          btn.addEventListener("click", function() {
+            let id = this.getAttribute("data-id");
+            editUser(id);
+          });
+        }
+      }
+
       // GET data
       function getUsers() {
         let contents = document.getElementById("contents");
@@ -134,6 +145,13 @@
             console.log(xhr.status, xhr.statusText);
           }
         }
+      }
+
+      // clear input
+      function clearInputs() {
+        document.getElementById("name").value = "";
+        document.getElementById("age").value = "";
+        document.getElementById("major").value = "";
       }
 
     </script>
