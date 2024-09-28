@@ -84,6 +84,58 @@
         }
       }
       
+      // Edit user info
+      function editUser(id) {
+        currentEditId = id;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `http://localhost:3001/users/${id}`);
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send();
+
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const user = JSON.parse(xhr.response);
+            document.getElementById("name").value = user.name;
+            document.getElementById("age").value = user.age;
+            document.getElementById("major").value = user.major;
+          } else {
+            console.log(xhr.status, xhr.statusText);
+          }
+        };
+      }
+
+      // PUT data
+      function updateData(id) {
+        let name = document.getElementById("name");
+        let age = document.getElementById("age");
+        let major = document.getElementById("major");
+
+        if(!name.value.trim() || !age.value.trim() || !major.value.trim()) {
+          alert("모든 필드는 필수입니다!");
+          return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("PUT", `http://localhost:3001/users/${id}`);
+        xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+        
+        const data = { name: name.value, age: parseInt(age.value), major: major.value };
+        xhr.send(JSON.stringify(data));
+
+        xhr.onload = () => {
+          if(xhr.status === 200) {
+            const res = JSON.parse(xhr.response);
+            console.log(res);
+            clearInputs();
+            getUsers();
+            currentEditId = null;
+          } else {
+            console.log(xhr.status, xhr.statusText);
+          }
+        }
+      }
+
     </script>
   </head>
   <body>
