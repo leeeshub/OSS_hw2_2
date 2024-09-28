@@ -33,40 +33,34 @@
   ],
   "users": [
     {
-      "name": "Lee",
-      "age": 20,
-      "major": "Computer Science",
-      "id": "a764"
-    },
-    {
+      "id": "ebb9",
       "name": "Kim",
-      "age": 22,
-      "major": "Business",
-      "id": "ebb9"
+      "age": "22",
+      "major": "Business"
     },
     {
+      "id": "f582",
       "name": "Choi",
-      "age": 21,
-      "major": "Sociology",
-      "id": "f582"
+      "age": "21",
+      "major": "Sociology"
     },
     {
+      "id": "b3ed",
       "name": "Park",
-      "age": 27,
-      "major": "Art",
-      "id": "b3ed"
+      "age": "27",
+      "major": "Art"
     },
     {
-      "name": "Lim",
-      "age": 24,
-      "major": "Physics",
-      "id": "9142"
-    },
-    {
+      "id": "e2ad",
       "name": "Kang",
-      "age": 29,
-      "major": "Biology",
-      "id": "e2ad"
+      "age": "29",
+      "major": "Biology"
+    },
+    {
+      "id": "e6ed",
+      "name": "Lee",
+      "age": "23",
+      "major": "Computer Science"
     }
   ]
 }
