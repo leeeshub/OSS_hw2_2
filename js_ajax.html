@@ -21,6 +21,11 @@
         padding: 20px;
         background-color: rgb(255, 255, 184);
       }
+
+      .delete-btn {
+        margin-left: 5px;
+        color: red;
+      }
     </style>
 
     
@@ -43,15 +48,18 @@
         });
       }
 
-      // event listener for edit btn
-      function eventListeners() {
+      // add event listener for edit and delete btn
+      function addListeners() {
         let editButtons = document.getElementsByClassName("edit-btn");
+        let deleteButtons = document.getElementsByClassName("delete-btn");
+        
         for (let btn of editButtons) {
           btn.addEventListener("click", function() {
             let id = this.getAttribute("data-id");
             editUser(id);
           });
         }
+
         for (let btn of deleteButtons) {
           btn.addEventListener("click", function() {
             let id = this.getAttribute("data-id");
@@ -73,7 +81,7 @@
           if (xhr.status === 200) {
             const res = JSON.parse(xhr.response);
             contents.innerHTML = makeList(res);
-            eventListeners();
+            addListeners();
           } else {
             console.log(xhr.status, xhr.statusText);
           }
