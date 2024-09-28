@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>사용자 관리</title>
+    
+    <script>
+      let currentEditId = null;
+
+      window.onload = function () {
+        let btnUser = document.getElementById("btnUser");
+        let btnAddUser = document.getElementById("btnAddUser");
+        let btnUpdateUser = document.getElementById("btnUpdateUser");
+
+        btnUser.addEventListener("click", getUsers);
+        btnAddUser.addEventListener("click", postData);
+        btnUpdateUser.addEventListener("click", function() {
+          if (currentEditId) {
+            updateData(currentEditId);
+          } else {
+            alert("수정할 유저를 선택하세요!");
+          }
+        });
+      }
+
+      // GET data
+      function getUsers() {
+        let contents = document.getElementById("contents");
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("GET", "http://localhost:3001/users");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send();
+
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const res = JSON.parse(xhr.response);
+            contents.innerHTML = makeList(res);
+            addEditListeners();
+          } else {
+            console.log(xhr.status, xhr.statusText);
+          }
+        }
+      }
+
+      // 사용자 목록 생성
+      function makeList(data) {
+        let str = "<ul>";
+        for (let key in data) {
+          str += `<li> 
+                    ${data[key].name} (${data[key].age}) - ${data[key].major} 
+                    <button class="edit-btn" data-id="${data[key].id}">수정</button>
+                  </li>`;
+        }
+        str += "</ul>";
+        return str;
+      }
+
+    </script>
+  </head>
+  <body>
+    <h2>사용자 관리</h2>
+
+    <div class="input-group">
+      <label for="name">이름:</label>
+      <input type="text" id="name" placeholder="name" required />
+    </div>
+    <div class="input-group">
+      <label for="age">나이:</label>
+      <input type="text" id="age" placeholder="age" required />
+    </div>
+    <div class="input-group">
+      <label for="major">전공:</label>
+      <input type="text" id="major" placeholder="major" required />
+    </div>
+    <button id="btnAddUser">유저 추가</button>
+    <button id="btnUpdateUser">수정 완료</button>
+
+    <button id="btnUser">유저 목록 보기</button>
+    <div id="contents"></div>
+  </body>
+</html>
