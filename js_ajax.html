@@ -6,6 +6,10 @@
     <title>사용자 관리</title>
 
     <style>
+      body {
+        margin: 1.5rem;
+      }
+
       .input-group {
         margin-bottom: 10px;
       }
@@ -211,24 +215,26 @@
     </script>
   </head>
   <body>
-    <h2>사용자 관리</h2>
+    <div id="body">
+      <h2>사용자 관리</h2>
 
-    <div class="input-group">
-      <label for="name">이름:</label>
-      <input type="text" id="name" placeholder="name" required />
-    </div>
-    <div class="input-group">
-      <label for="age">나이:</label>
-      <input type="text" id="age" placeholder="age" required />
-    </div>
-    <div class="input-group">
-      <label for="major">전공:</label>
-      <input type="text" id="major" placeholder="major" required />
-    </div>
-    <button id="btnAddUser">유저 추가</button>
-    <button id="btnUpdateUser">수정 완료</button>
+      <div class="input-group">
+        <label for="name">이름:</label>
+        <input type="text" id="name" placeholder="name" required />
+      </div>
+      <div class="input-group">
+        <label for="age">나이:</label>
+        <input type="text" id="age" placeholder="age" required />
+      </div>
+      <div class="input-group">
+        <label for="major">전공:</label>
+        <input type="text" id="major" placeholder="major" required />
+      </div>
+      <button id="btnAddUser">유저 추가</button>
+      <button id="btnUpdateUser">수정 완료</button>
 
-    <button id="btnUser">유저 목록 보기</button>
-    <div id="contents"></div>
+      <button id="btnUser">유저 목록 보기</button>
+      <div id="contents"></div>
+    </div>
   </body>
 </html>
