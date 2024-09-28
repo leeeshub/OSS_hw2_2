@@ -57,6 +57,33 @@
         return str;
       }
 
+      // POST data
+      function postData() {
+        let name = document.getElementById("name");
+        let age = document.getElementById("age");
+        let major = document.getElementById("major");
+
+        if(!name.value.trim() || !age.value.trim() || !major.value.trim()) {
+          alert("모든 필드는 필수입니다!");
+          return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:3001/users");
+        xhr.setRequestHeader("content-type", "application/json; charset=UTF-8");
+        const data = { name: name.value, age: age.value, major: major.value };
+
+        xhr.send(JSON.stringify(data));
+        xhr.onload = () => {
+          if(xhr.status === 201) {
+            clearInputs();
+            getUsers();
+          } else {
+            console.log(xhr.status, xhr.statusText);
+          }
+        }
+      }
+      
     </script>
   </head>
   <body>
